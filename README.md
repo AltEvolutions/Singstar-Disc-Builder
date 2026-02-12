@@ -27,7 +27,6 @@ run_gui.bat
 ## Documentation
 
 - **User Guide (HTML, best local reading):** `docs/USER_GUIDE.html` (open in any web browser; includes a Dark/Light toggle)
-- **User Guide (Markdown, best for GitHub):** `docs/USER_GUIDE.md`
 
 ## Important notes
 
