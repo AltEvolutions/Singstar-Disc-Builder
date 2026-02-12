@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ruff
+.ruff_cache/
+
+# Virtualenv
+.venv/
+venv/
+ENV/
+.env
+
+# Logs / runtime
+logs/
+*.log
+_index_cache/
+
+# Support bundles
+spcdb_support_*.zip
+spcdb_support_*/
+
+# Build / dist
+build/
+dist/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+.mypy_cache/

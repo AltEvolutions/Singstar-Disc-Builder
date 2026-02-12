@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SSPCDB User Guide</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --fg: #e8e8e8;
+      --muted: #b0b0b0;
+      --border: #2a2f3a;
+      --codebg: #141821;
+      --callout: #12243a;
+      --callout-border: #2b4b73;
+      --link: #78b7ff;
+      --btn-bg: transparent;
+      --btn-bg-hover: rgba(255, 255, 255, 0.06);
+    }
+    html[data-theme="light"] {
+      --bg: #ffffff;
+      --fg: #111111;
+      --muted: #555555;
+      --border: #e6e6e6;
+      --codebg: #f6f8fa;
+      --callout: #f0f7ff;
+      --callout-border: #cfe5ff;
+      --link: #0969da;
+      --btn-bg: transparent;
+      --btn-bg-hover: rgba(0, 0, 0, 0.04);
+    }
+    html, body { background: var(--bg); color: var(--fg); margin: 0; padding: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 18px 64px; }
+    header .titlebar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    header .titlebar h1 { margin: 0; font-size: 32px; }
+    header h1 { margin: 0; }
+    .theme-toggle {
+      border: 1px solid var(--border);
+      background: var(--btn-bg);
+      color: var(--fg);
+      padding: 8px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .theme-toggle:hover { background: var(--btn-bg-hover); }
+        header .meta { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+    .callout { background: var(--callout); border: 1px solid var(--callout-border); padding: 12px 14px; border-radius: 10px; margin: 14px 0; }
+    .toc { border: 1px solid var(--border); border-radius: 12px; padding: 14px 14px; margin: 18px 0 22px; }
+    .toc h2 { margin: 0 0 8px; font-size: 18px; }
+    .toc ul { margin: 0; padding-left: 18px; }
+    .toc li { margin: 4px 0; }
+    .toc li.sub { margin-left: 12px; font-size: 0.98em; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    h1, h2, h3 { line-height: 1.25; }
+    h2 { margin-top: 28px; border-top: 1px solid var(--border); padding-top: 18px; }
+    h3 { margin-top: 18px; }
+    p, li { line-height: 1.6; }
+    code { background: var(--codebg); padding: 0.15em 0.35em; border-radius: 6px; }
+    pre { background: var(--codebg); padding: 12px 14px; border-radius: 12px; overflow: auto; border: 1px solid var(--border); }
+    pre code { background: none; padding: 0; }
+    blockquote { margin: 14px 0; padding: 10px 14px; border-left: 4px solid var(--border); color: var(--muted); background: #fafafa; border-radius: 10px; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+    footer { margin-top: 44px; color: var(--muted); font-size: 13px; }
+    @media print {
+      a { color: inherit; text-decoration: none; }
+      .toc { page-break-inside: avoid; }
+      pre { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="titlebar">
+        <h1>SSPCDB User Guide</h1>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme"></button>
+      </div>
+      <div class="meta">Version 1.0.0-rc3 - Updated 2026-02-12 - Open this file in any web browser</div>
+      <div class="callout">
+        <strong>Reminder:</strong> SSPCDB is <strong>code + docs only</strong>. Do not include or share copyrighted disc content.
+      </div>
+    </header>
+
+    <nav class='toc'><h2>Contents</h2><ul>
+<li class='top'><a href='#requirements'>Requirements</a></li>
+<li class='top'><a href='#base-disc-guidance-important'>Base disc guidance (important)</a></li>
+<li class='sub'><a href='#singstar-titles-known-to-offer-update-600'>SingStar titles known to offer Update 6.00</a></li>
+<li class='top'><a href='#concepts'>Concepts</a></li>
+<li class='top'><a href='#workflow-gui'>Workflow (GUI)</a></li>
+<li class='sub'><a href='#1-add-discs'>1) Add discs</a></li>
+<li class='sub'><a href='#2-extract-packed-sources-external-tool'>2) Extract packed sources (external tool)</a></li>
+<li class='sub'><a href='#3-validate-selected-discs'>3) Validate selected discs</a></li>
+<li class='sub'><a href='#4-select-songs'>4) Select songs</a></li>
+<li class='sub'><a href='#5-resolve-conflicts-when-needed'>5) Resolve conflicts (when needed)</a></li>
+<li class='sub'><a href='#6-build-full-build'>6) Build (full build)</a></li>
+<li class='sub'><a href='#7-update-existing-fast-incremental-rebuild'>7) Update Existing… (fast incremental rebuild)</a></li>
+<li class='sub'><a href='#which-button-should-i-use'>Which button should I use?</a></li>
+<li class='top'><a href='#output-files-you-should-expect'>Output files you should expect</a></li>
+<li class='top'><a href='#disc-branding-xmb'>Disc branding (XMB)</a></li>
+<li class='top'><a href='#recommended-usage-single-output-disc'>Recommended usage (single output disc)</a></li>
+<li class='top'><a href='#expected-behaviour-real-hardware-and-rpcs3'>Expected behaviour (real hardware and RPCS3)</a></li>
+<li class='top'><a href='#support-bundle-for-bug-reports'>Support bundle (for bug reports)</a></li>
+</ul></nav>
+
+    <h1 id="user-guide">User guide</h1>
+<p>This guide covers the <strong>typical GUI workflow</strong> for building a custom SingStar PS3 disc folder from an extracted <strong>Base</strong> disc plus one or more <strong>Source</strong> discs.</p>
+<blockquote>
+<p>Reminder: this repository is <strong>code + docs only</strong>. Do not include or share copyrighted disc content.</p>
+</blockquote>
+<h2 id="requirements">Requirements</h2>
+<p><strong>Disc format:</strong> SSPCDB expects <strong>decrypted disc folders</strong> (a folder containing <code>PS3_GAME/</code>). ISO images are <strong>not supported directly</strong> — extract/decrypt the ISO to a folder first.</p>
+<ul>
+<li>Python installed (Windows/Linux/macOS)</li>
+<li>Discs in <strong>extracted folder form</strong> (recommended), <em>or</em> packed discs with the external extractor configured (Windows/Linux/macOS)</li>
+<li>For real hardware use: <strong>SingStar Update 6.00</strong> must be installed on the PS3 before using a custom disc.</li>
+</ul>
+<p>- Before launching SingStar, <strong>check for updates</strong> (or install Update 6.00 via PKG in your existing workflow).</p>
+<p>- On the <strong>first boot</strong>, large builds (e.g. <strong>300+ songs</strong>) may take a while: wait for the song icons to stop spinning, then you will reach the developer logos/intro video.</p>
+<ul>
+<li>For RPCS3 emulation:</li>
+</ul>
+<p>- The <strong>first in-game load</strong> (e.g. getting into the song list / initial content load) typically takes <strong>~30–60 seconds</strong> on larger song sets.</p>
+<p>- Occasionally RPCS3 may <strong>crash during this first in-game load</strong>; a successful run usually occurs after <strong>up to 3 retries</strong> (more retries can be needed in rare cases).</p>
+<p>- This is observed <strong>RPCS3/emulation-side variability</strong>, not necessarily an invalid build.</p>
+<h2 id="base-disc-guidance-important">Base disc guidance (important)</h2>
+<ul>
+<li><strong>Recommended base disc (tested):</strong> <strong>SingStar [BCES00011]</strong>.</li>
+<li><strong>Region seems to be irrelevant</strong> for SSPCDB builds (any equivalent SingStar disc-region should work the same).</li>
+<li><strong>Avoid using these as the Base disc:</strong> <strong>SingStar MegaHits</strong> and <strong>SingStar: Ultimate Party</strong> (and their regional equivalents). Their latest official update is <strong>v01.10</strong>, not <strong>v06.00</strong>. They <strong>can still be used as Source discs</strong>.</li>
+<li>Some later themed discs (example: <strong>SingStar Frozen</strong>) have a latest update <strong>v01.03</strong>, not <strong>v06.00</strong> — treat them as <strong>Source-only</strong> unless you personally validate them as a Base.</li>
+<li><strong>Disc order:</strong> for typical use, <strong>order doesn’t matter</strong>. Pick your Base disc (template), then add any Source discs you want.</li>
+</ul>
+<h3 id="singstar-titles-known-to-offer-update-600">SingStar titles known to offer Update 6.00</h3>
+<p>This list is based on the RPCS3 update catalog (Title IDs + latest patch version). If your disc isn’t listed here, the safest approach is: <strong>use BCES00011 as Base</strong> and treat unknown discs as <strong>Source</strong>.</p>
+<ul>
+<li><strong>SingStar</strong> — BCES00011 / BCES00030 / BCES00031 / BCES00032 / BCES00051 / BCUS98151</li>
+<li><strong>SingStar ABBA</strong> — BCES00381 / BCES00423 / BCUS98192</li>
+<li><strong>SingStar A Tutto Pop</strong> — BCES00345</li>
+<li><strong>SingStar Afrikaanse Treffers</strong> — BCES01083</li>
+<li><strong>SingStar Après-Ski Party 2</strong> — BCES01024</li>
+<li><strong>SingStar Cantautori Italiani</strong> — BCES01023</li>
+<li><strong>SingStar Chart Hits</strong> — BCES00846</li>
+<li><strong>SingStar Dance</strong> — BCES00894 / BCES01049 / BCUS98266</li>
+<li><strong>SingStar Fussballhits</strong> — BCES00869</li>
+<li><strong>SingStar Grandes Exitos</strong> — BCES01258</li>
+<li><strong>SingStar Guitar</strong> — BCES00835 / BCES00979 / BCES00980 / BCES00981</li>
+<li><strong>SingStar Hits</strong> — BCES00264</li>
+<li><strong>SingStar Hits 2</strong> — BCES00346</li>
+<li><strong>SingStar Intro</strong> — BCES00622</li>
+<li><strong>SingStar Kent</strong> — BCES00852</li>
+<li><strong>SingStar Vol. 2</strong> — BCES00185 / BCES00235 / BCES00233 / BCES00234 / BCUS98178</li>
+<li><strong>SingStar Vol. 3</strong> — BCES00216 / BCES00265 / BCES00266 / BCES00267</li>
+</ul>
+<h2 id="concepts">Concepts</h2>
+<ul>
+<li><strong>Base disc</strong>: the disc you are building “on top of”. Branding defaults and many baseline files come from Base.</li>
+<li><strong>Source discs (donors)</strong>: additional discs you can pull songs/assets from.</li>
+<li><strong>Packed vs extracted</strong>:</li>
+</ul>
+<p>- <strong>Extracted</strong>: already has a <code>PS3_GAME/</code> folder on disk.</p>
+<p>- <strong>Packed / unextracted</strong>: contains <code>Pack*.pkd</code> archives that must be extracted to harvest <code>FileSystem/Export</code>.</p>
+<h2 id="workflow-gui">Workflow (GUI)</h2>
+<h3 id="1-add-discs">1) Add discs</h3>
+<ol>
+<li>Add your <strong>Base</strong> disc (extracted folder).</li>
+<li>Add one or more <strong>Source</strong> discs.</li>
+</ol>
+<p>- If a Source is packed, you can extract it later (step 2).</p>
+<p>Tip: use the Sources panel to select which discs are “active” for filtering and building.</p>
+<h3 id="2-extract-packed-sources-external-tool">2) Extract packed sources (external tool)</h3>
+<p>If any sources are packed/unextracted (and you have the external extractor configured):</p>
+<ol>
+<li>Select the packed sources</li>
+<li>Click <strong>Extract Selected</strong></li>
+<li>Wait for extraction to complete (you can cancel; cancelled builds are kept as <code>__CANCELLED*</code>)</li>
+</ol>
+
+<h3 id="3-validate-selected-discs">3) Validate selected discs</h3>
+<p>Click <strong>Validate Selected</strong> to run non-destructive checks. This helps catch:</p>
+<ul>
+<li>Missing expected Export data</li>
+<li>Common folder casing issues</li>
+<li>Incomplete extraction</li>
+</ul>
+<p>If validation warns/blocks, check the logs and the on-screen message, fix the disc folder, then re-validate.</p>
+<h3 id="4-select-songs">4) Select songs</h3>
+<p>Use the Songs table to select what you want:</p>
+<ul>
+<li>Songs are grouped by <strong>Preferred disc</strong></li>
+<li>Group headers can collapse/expand, and a group checkbox toggles all in the group</li>
+<li>Use the Source filter (and “Selected discs”) to focus on relevant donors</li>
+</ul>
+<h3 id="5-resolve-conflicts-when-needed">5) Resolve conflicts (when needed)</h3>
+<p>If the same Song ID exists in multiple sources with different content, use <strong>Resolve Conflicts…</strong> to choose the winning source.</p>
+<p>Tools in the dialog include:</p>
+<ul>
+<li>Detect identical duplicates</li>
+<li>Auto-resolve identical</li>
+<li>Apply recommended</li>
+</ul>
+<h3 id="6-build-full-build">6) Build (full build)</h3>
+<ol>
+<li>Choose an output folder (empty is simplest).</li>
+<li>Optional: enable <strong>Allow overwrite existing output</strong> if you want to rebuild into an existing output folder.</li>
+</ol>
+<p>- Recommended: keep <strong>Keep backup of existing output</strong> enabled so the prior build is preserved as <code>__BACKUP_*</code>.</p>
+<p>- Safety guardrail: overwrite is only allowed when the target folder looks like a previous SingStar disc/output (Export signature) and it is <strong>not</strong> one of your selected input folders (base/donors).</p>
+<ol>
+<li>Click <strong>Build Selected</strong></li>
+</ol>
+<blockquote>
+<p>Note: If your selection contains two entries with the same <strong>Title + Artist</strong> (different Song IDs),</p>
+<p>SingStar may suppress them in-game. SSPCDB will prompt you to choose which ID to keep (and will remember</p>
+<p>that choice for this project).</p>
+</blockquote>
+<h3 id="7-update-existing-fast-incremental-rebuild">7) Update Existing… (fast incremental rebuild)</h3>
+<p>Use <strong>Update Existing…</strong> when you already built an output disc folder and you want to apply changes without a full rebuild (for example, add/remove discs, change your selection, or regenerate indexes).</p>
+<p>High-level behavior:</p>
+<ul>
+<li>SSPCDB renames your chosen output folder to a timestamped backup (for example: <code>OUTPUT.__BACKUP_YYYYMMDD_HHMMSS</code>).</li>
+<li>It seeds the new output from that backup (using <strong>hardlinks</strong> when possible; otherwise copy), then applies only the differences.</li>
+<li>You’ll see a <strong>pre-flight delta</strong> summary (+added / -removed) before the update runs.</li>
+</ul>
+<p>Notes:</p>
+<ul>
+<li>Updates are fastest when the output is on the <strong>same drive/filesystem</strong> (hardlinks).</li>
+<li>Update Existing still writes the normal sidecar reports next to the output folder (useful for verifying what changed).</li>
+</ul>
+<h3 id="which-button-should-i-use">Which button should I use?</h3>
+<ul>
+<li><strong>Build Selected</strong>: first build, or when you want a clean rebuild into a new folder.</li>
+<li><strong>Update Existing…</strong>: you already have an output folder and want the fastest “apply changes” workflow.</li>
+<li><strong>Apply to existing output…</strong> (Branding-only): update ICON0/PIC1 only (no song/XML changes).</li>
+</ul>
+<h2 id="output-files-you-should-expect">Output files you should expect</h2>
+<p>After a successful build/update, SSPCDB writes the disc folder plus a few sidecar files next to it:</p>
+<ul>
+<li><code>*_build_report.json</code></li>
+<li><code>*_build_report.txt</code></li>
+<li><code>*_transfer_notes.txt</code></li>
+<li><code>*_preflight_summary.txt</code></li>
+<li><code>*_expected_songs.csv</code></li>
+<li><code>*_built_songs.csv</code></li>
+<li><code>*_song_diff.csv</code></li>
+</ul>
+<p>These files are safe to share (they contain <strong>no disc assets</strong>) and are useful when debugging.</p>
+<h2 id="disc-branding-xmb">Disc branding (XMB)</h2>
+<p>You can optionally override the disc’s XMB visuals:</p>
+<ul>
+<li><code>PS3_GAME/ICON0.PNG</code> (tile icon) — auto-resized to <strong>320×176</strong></li>
+<li><code>PS3_GAME/PIC1.PNG</code> (background) — auto-resized to <strong>1920×1080</strong></li>
+</ul>
+<p>There are two workflows:</p>
+<ul>
+<li>Set overrides and <strong>Build Selected</strong> (applies during build)</li>
+<li>Use <strong>Apply to existing output…</strong> to update ICON0/PIC1 in an <strong>already-built</strong> output folder without rebuilding</li>
+</ul>
+
+<h2 id="recommended-usage-single-output-disc">Recommended usage (single output disc)</h2>
+<p>SSPCDB is designed around a simple flow: <strong>pick everything you want, then build one output disc folder</strong>.</p>
+<ul>
+<li>Most users will select a Base disc plus all donor discs they own, then click <strong>Build Selected</strong> once.</li>
+<li>If you want to change the selection later (add/remove donors, adjust picks, regenerate indexes), prefer <strong>Update Existing…</strong> instead of rebuilding from scratch.</li>
+</ul>
+<h2 id="expected-behaviour-real-hardware-and-rpcs3">Expected behaviour (real hardware and RPCS3)</h2>
+<ul>
+<li>On real hardware, very large song sets can take longer on first load. Let the game finish loading (e.g., wait for song icons to stop spinning) before deciding something is wrong.</li>
+<li>In <strong>RPCS3</strong>, the first in-game load (entering the song list / initial content load) typically takes <strong>~30–60 seconds</strong> on larger song sets.</li>
+</ul>
+<p>- Occasionally RPCS3 may crash during this first in-game load; a successful run usually occurs after <strong>up to 3 retries</strong> (more retries can be needed in rare cases).</p>
+<p>- This is observed RPCS3/emulation-side variability, not necessarily an invalid build.</p>
+<h2 id="support-bundle-for-bug-reports">Support bundle (for bug reports)</h2>
+<p>Export a support bundle (no copyrighted assets; paths are redacted by default):</p>
+<ul>
+<li>Qt GUI: <strong>Help → Export support bundle...</strong></li>
+<li>CLI: <code>python -m spcdb_tool support-bundle --out spcdb_support.zip</code></li>
+</ul>
+
+
+    <footer>
+      <hr>
+      <div>SSPCDB is not affiliated with or endorsed by Sony. “SingStar” and “PlayStation” are trademarks of their respective owners.</div>
+    </footer>
+  </div>
+
+  <script>
+    (() => {
+      const KEY = "sspcdb-theme";
+      const root = document.documentElement;
+      const btn = document.getElementById("themeToggle");
+      if (!btn) return;
+
+      function apply(theme) {
+        root.dataset.theme = theme;
+        btn.textContent = theme === "dark" ? "Light mode" : "Dark mode";
+        btn.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+      }
+
+      const saved = localStorage.getItem(KEY);
+      const initial = (saved === "light" || saved === "dark") ? saved : "dark";
+      apply(initial);
+
+      btn.addEventListener("click", () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        localStorage.setItem(KEY, next);
+        apply(next);
+      });
+    })();
+  </script>
+</body>
+</html>

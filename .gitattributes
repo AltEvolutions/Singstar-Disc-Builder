@@ -1,0 +1,9 @@
+# Normalize text file line endings across platforms.
+# Prevents noisy 'LF -> CRLF' diffs in GitHub Desktop and keeps the repo consistent.
+* text=auto eol=lf
+
+# Explicit binaries
+*.png binary
+*.ico binary
+*.icns binary
+*.zip binary

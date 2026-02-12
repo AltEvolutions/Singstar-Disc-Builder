@@ -1,0 +1,53 @@
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+extend-exclude = [
+  "spcdb_tool/gui_app.py",
+  "spcdb_tool/qt_app.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+pretty = true
+
+# Keep this intentionally non-strict for P5.
+check_untyped_defs = false
+disallow_untyped_defs = false
+no_implicit_optional = false
+
+# Scope: keep typechecking focused and useful (avoid UI layers and complex pipelines).
+# Expand gradually when you want more coverage.
+files = [
+  "spcdb_tool/app_logging.py",
+  "spcdb_tool/constants.py",
+  "spcdb_tool/file_utils.py",
+  "spcdb_tool/melody_fingerprint.py",
+  "spcdb_tool/util.py",
+]
+exclude = "^(tests/|spcdb_tool/(gui_app|qt_app)\\.py)$"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["spcdb_tool"]
+omit = [
+  "spcdb_tool/gui_app.py",
+  "spcdb_tool/qt_app.py",
+  "spcdb_tool/qt/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
