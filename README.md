@@ -18,7 +18,6 @@ py -m venv .venv
 .venv\Scripts\python.exe -m pip install -U pip
 .venv\Scripts\python.exe -m pip install -r requirements.txt
 
-REM If you're in PowerShell, use: .\run_gui.bat
 run_gui.bat
 ```
 
