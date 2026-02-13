@@ -1,5 +1,8 @@
 # SingStar PS3 Custom Disc Builder (SSPCDB)
 
+<img width="250" height="250" alt="spcdb_icon" src="https://github.com/user-attachments/assets/3164f633-f91f-4b11-b0fd-d611cf9ae254" />
+
+
 **SSPCDB** builds a custom SingStar PS3 disc folder by selecting songs from a **Base** disc plus one or more **Source** discs.
 
 - **Version:** 1.0.1
