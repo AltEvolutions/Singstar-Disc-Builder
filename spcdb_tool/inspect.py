@@ -46,6 +46,34 @@ def _parse_xml(path: Path) -> ET.Element:
         raise ValueError(f"XML parse failed for {path}: {e}") from e
 
 
+
+def _check_retail_xml_style(path: Path, warnings: list[str], *, check_run_on_subset: bool = False) -> None:
+    """Warn on common XML formatting drift that can affect brittle parsers."""
+    try:
+        data = path.read_bytes()
+    except Exception:
+        return
+
+    name = path.name
+
+    # 1) Line endings
+    if b"\r" in data:
+        warnings.append(f"{name}: contains CR characters (expected LF-only).")
+
+    # 2) Namespace declaration drift
+    if b"xmlns:ss=\"http://www.singstargame.com\"" not in data:
+        warnings.append(f"{name}: missing xmlns:ss declaration (retail exports often include it).")
+
+    # 3) Self-closing tag style drift
+    if b" />" in data:
+        warnings.append(f"{name}: contains ' />' self-closing style (retail typically uses '/>').")
+
+    # 4) Run-on subset tags (songlists)
+    if check_run_on_subset:
+        n = data.count(b"</SUBSET><SUBSET")
+        if n:
+            warnings.append(f"{name}: contains {n} run-on '</SUBSET><SUBSET' occurrences (expected 0).")
+
 def _find_text(el: ET.Element, xpath: str) -> Optional[str]:
     found = el.find(xpath, namespaces=NS)
     if found is None or found.text is None:
@@ -157,6 +185,7 @@ def inspect_export(export_root: Path, kind: str, input_path: str, warnings: list
     if not cfg_path.exists():
         raise FileNotFoundError(f"config.xml not found at Export root: {cfg_path}")
 
+    _check_retail_xml_style(cfg_path, warnings)
     cfg_root = _parse_xml(cfg_path)
 
     product_code = _find_text(cfg_root, ".//ss:PRODUCT_CODE")
@@ -196,6 +225,10 @@ def inspect_export(export_root: Path, kind: str, input_path: str, warnings: list
                 numeric_dirs += 1
     except Exception:
         pass
+
+    # Retail-style XML sanity checks (helps catch subtle serializer drift)
+    for p in sorted(export_root.glob("songlists_*.xml")):
+        _check_retail_xml_style(p, warnings, check_run_on_subset=True)
 
     songs_xmls = list(export_root.glob("songs_*_0.xml"))
     banks_from_files: Set[int] = set()

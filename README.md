@@ -1,10 +1,9 @@
-<img width="200" height="200" alt="spcdb_icon" src="https://github.com/user-attachments/assets/95feae38-f66a-4e7c-a296-0dc97eaeea00" />
-
 # SingStar PS3 Custom Disc Builder (SSPCDB)
 
 **SSPCDB** builds a custom SingStar PS3 disc folder by selecting songs from a **Base** disc plus one or more **Source** discs.
 
-- **Version:** 1.0.0
+- **Version:** 1.0.1
+- **1.0.1 change:** Retail-compatible XML output (LF-only, keep xmlns:ss, stable formatting)
 - **License:** GPL-3.0
 - **Code + docs only:** this repo does **not** include any copyrighted game content.
 
@@ -18,6 +17,7 @@ py -m venv .venv
 .venv\Scripts\python.exe -m pip install -U pip
 .venv\Scripts\python.exe -m pip install -r requirements.txt
 
+REM If you're in PowerShell, use: .\run_gui.bat
 run_gui.bat
 ```
 
@@ -26,6 +26,7 @@ run_gui.bat
 ## Documentation
 
 - **User Guide (HTML, best local reading):** `docs/USER_GUIDE.html` (open in any web browser; includes a Dark/Light toggle)
+- **User Guide (Markdown, best for GitHub):** `docs/USER_GUIDE.md`
 
 ## Important notes
 
@@ -44,18 +45,7 @@ Setup instructions are in the **User Guide** (see the “Extractor setup” sect
 
 - **Edness** (https://bsky.app/profile/edness.bsky.social) - SCEE London Studio PS3 PACKAGE tool (external extractor) (https://github.com/EdnessP/scee-london/)
 - **AltEvolutions** - SSPCDB (https://bsky.app/profile/altevolutions.uk) / https://github.com/AltEvolutions
-- This was coded via ChatGPT over the course of a month and a half. I tested everything as much as I physically can at each stage to the best of my abilities.
 
 ## Trademark & affiliation notice
 
 SingStar and PlayStation are trademarks of their respective owners. This project is not affiliated with or endorsed by Sony.
-
-### Extra Details
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.

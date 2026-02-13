@@ -34,9 +34,55 @@ def _read_xml(path: Path) -> ET.ElementTree:
         raise MergeError(f"XML parse failed: {path}: {e}") from e
 
 
+def _ensure_retail_ns_decl(root: ET.Element) -> None:
+    """Ensure the redundant retail-style namespace declaration exists.
+
+    Many retail exports include both:
+      - default xmlns="http://www.singstargame.com"
+      - xmlns:ss="http://www.singstargame.com"
+
+    Some console-era parsers can be brittle about serialization drift, so we
+    force this declaration on disc-facing XML we emit.
+    """
+    if "xmlns:ss" in root.attrib:
+        return
+    # ElementTree can also represent xmlns declarations as '{xml-ns}ss' keys,
+    # but setting the literal 'xmlns:ss' attribute reliably emits it.
+    root.set("xmlns:ss", _NS)
+
+
 def _write_xml(tree: ET.ElementTree, path: Path) -> None:
+    """Write XML in a retail-compatible style (LF, stable formatting)."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    tree.write(path, encoding="UTF-8", xml_declaration=True)
+
+    root = tree.getroot()
+    if root is None:
+        raise MergeError(f"Cannot write empty XML tree: {path}")
+
+    # Avoid mutating the in-memory tree used for further merging.
+    root_copy = copy.deepcopy(root)
+
+    _ensure_retail_ns_decl(root_copy)
+
+    # Pretty-print: one tag per line, stable indentation.
+    try:
+        ET.indent(root_copy, space="  ", level=0)  # py3.9+
+    except Exception:
+        pass
+
+    data = ET.tostring(root_copy, encoding="UTF-8", xml_declaration=True)
+
+    # Normalize to LF-only newlines.
+    data = data.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+    # Match retail style for empty elements: '/>' (no space).
+    data = data.replace(b" />", b"/>")
+
+    # Ensure a trailing newline (common in retail exports and friendly for diff tools).
+    if not data.endswith(b"\n"):
+        data += b"\n"
+
+    path.write_bytes(data)
 
 
 def _iter_song_ids_from_songs_xml(root: ET.Element) -> Iterable[int]:
