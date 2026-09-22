@@ -1,5 +1,7 @@
 # SingStar PS3 Custom Disc Builder (SSPCDB)
 
+**NOTE: Repo archived as of 22nd September 2026. Go use Singstar Toolbox (https://github.com/ravenDS/singstar-toolbox) instead, that will be much more useful in the long run!**
+
 <img width="250" height="250" alt="spcdb_icon" src="https://github.com/user-attachments/assets/3164f633-f91f-4b11-b0fd-d611cf9ae254" />
 
 
@@ -9,6 +11,7 @@
 - **1.0.1 change:** Retail-compatible XML output (LF-only, keep xmlns:ss, stable formatting)
 - **License:** GPL-3.0
 - **Code + docs only:** this repo does **not** include any copyrighted game content.
+
 
 ## Quick start (Windows)
 
